@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login + Tenant Search</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 320px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    input {
+      width: 90%;
+      padding: 8px;
+      margin: 8px 0;
+    }
+
+    button {
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    #tenantSection {
+      display: none;
+      margin-top: 15px;
+      border-top: 1px solid #ddd;
+      padding-top: 15px;
+    }
+
+    #result {
+      margin-top: 10px;
+      text-align: left;
+      background: #eef;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>Login</h2>
+
+  <!-- Login Section -->
+  <div id="loginSection">
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+  </div>
+
+  <!-- Tenant Section -->
+  <div id="tenantSection">
+    <h3>Tenant Lookup</h3>
+    <input type="text" id="tenantId" placeholder="Enter Tenant ID">
+    <button onclick="searchTenant()">Search</button>
+
+    <div id="result"></div>
+  </div>
+</div>
+
+<script>
+  // Fake tenant database (demo data)
+  const tenantData = {
+    "T001": { name: "Tenant A", plan: "Premium", users: 12 },
+    "T002": { name: "Tenant B", plan: "Basic", users: 5 },
+    "T003": { name: "Tenant C", plan: "Enterprise", users: 45 }
+  };
+
+  function login() {
+    const user = document.getElementById("username").value;
+    const pass = document.getElementById("password").value;
+
+    if (user && pass) {
+      document.getElementById("loginSection").style.display = "none";
+      document.getElementById("tenantSection").style.display = "block";
+    } else {
+      alert("Please enter username and password");
+    }
+  }
+
+  function searchTenant() {
+    const id = document.getElementById("tenantId").value.trim();
+    const resultBox = document.getElementById("result");
+
+    if (tenantData[id]) {
+      const t = tenantData[id];
+      resultBox.innerHTML = `
+        <b>Name:</b> ${t.name}<br>
+        <b>Plan:</b> ${t.plan}<br>
+        <b>Users:</b> ${t.users}
+      `;
+    } else {
+      resultBox.innerHTML = "Tenant not found.";
+    }
+  }
+</script>
+
+</body>
+</html>
